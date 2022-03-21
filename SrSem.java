@@ -58,7 +58,7 @@ public class SrSem {
 		for (int i = 0; i < y.size()/8; i++){
 			//making student 
 			//*System.out.print(y.get(n)); 
-			SrSt student = new SrSt(y.get(n), y.get(n+1), y.get(n+2), y.get(n+3), y.get(n+4), y.get(n+5), y.get(n+6), y.get(n+7)); 
+			SrSt student = new SrSt(y.get(n), y.get(n+1), y.get(n+2), y.get(n+3), y.get(n+4), y.get(n+5), y.get(n+6), y.get(n+7), i); 
 			s.add(student);
 			
 			//*student.getEmail();  
@@ -126,6 +126,18 @@ public class SrSem {
 		}
 			
 		s1.schedule(); 
+		
+		System.out.println("\nSTUDENT SCHEDULES\n"); 
+		n=0;
+		//making individual schedules
+		for (int i = 0; i < y.size()/8; i++){
+			//making student 
+			//*System.out.print(y.get(n)); 
+			SrSt student1 = new SrSt(y.get(n), y.get(n+1), y.get(n+2), y.get(n+3), y.get(n+4), y.get(n+5), y.get(n+6), y.get(n+7), i); 
+			student1.stuSchedule(s1.getS1(), s1.getS2(), s1.getS3(), s1.getS1(), s1.getS2()); 
+			student1.getStudentSchedule(); 
+			n = n + 8; 
+		}
 		
 	}//close main 
 	

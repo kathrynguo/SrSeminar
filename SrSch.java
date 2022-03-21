@@ -606,19 +606,20 @@ public class SrSch {
 	//arrayList for schedule 
 	private ArrayList<ArrayList<Integer>> sch = new ArrayList<ArrayList<Integer>>(); 
 	
-	private boolean set1; //true if you want to add, false if you don't 
+	//3 'sets' of 6 presenters
+	//sets 1 and 2 will go twice (top 12), set 3 will go once (top 13) 
+	//for a total of 5 sets of 6 presents
+	private	ArrayList<Integer> s1 = new ArrayList<Integer>();
+	private	ArrayList<Integer> s2 = new ArrayList<Integer>(); 
+	private	ArrayList<Integer> s3 = new ArrayList<Integer>(); 
 	
 	public void schedule() {
 		
-		//3 'sets' of 6 presenters
-		//sets 1 and 2 will go twice (top 12), set 3 will go once (top 13) 
-		//for a total of 5 sets of 6 presents
-		ArrayList<Integer> s1 = new ArrayList<Integer>();
-		ArrayList<Integer> s2 = new ArrayList<Integer>(); 
-		ArrayList<Integer> s3 = new ArrayList<Integer>(); 
-		
+	//REPEATING PRESENTERS; FIRST ATTEMPT DIDN'T WORK 
 		/*	the part with repeating presenters needs to be worked out */
-		
+		/*
+		//private boolean set1; //true if you want to add, false if you don't ; used in attempt1 and didn't work
+	
 		//populating arraylists 1 and 2 with presenters, ensuring that a presenter with 2 lectures is not scheduled twice in the same set
 		for (int a = 0; a < t121.size(); a++) {
 			
@@ -626,15 +627,15 @@ public class SrSch {
 				//cycling through already scheduled to check for repeat presenters
 				for (int b = 0; b <= a; b++) {
 					//making sure the presenter has not already appeared in the set and there are not already 6 presenters
-					if ((t121.get(b).get(1) != t121.get(a).get(1) && s1.size() < 6) || a == 0) {
+					if ((s1.get(b).get(1) != t121.get(a).get(1) && s1.size() < 6) || a == 0) {
 						set1 = true;  
 					}
-					else if (t121.get(b).get(1) == t121.get(a).get(1) || s1.size() >= 6) {
+					else if (s1.get(b).get(1) == t121.get(a).get(1) || s1.size() >= 6) {
 						set1 = false; 
 					}
 					
 				}
-			} while (set1 == true && b <= a); 
+			} while (set1 == true); 
 			
 			//true if you want to add, false if you don't 
 			if (set1 == true) {
@@ -645,6 +646,32 @@ public class SrSch {
 			}
 		}
 		
+		*/
+		
+	//SECOND ATTEMPT TO GET RID OF REPEAT PRESENTERS
+	
+		//populate set 1 with the firt half of t121, and set 2 with the second half of t121
+		for (int d = 0; d < t121.size()/2; d++) {
+			s1.add(t121.get(d).get(0)); 
+		}
+		
+		for (int v = t121.size()/2; v < t121.size(); v++) {
+			s2.add(t121.get(v).get(0)); 
+		}
+		
+		//check indexes 0-5 of t121 for repeats in a set using double for loops 
+			for (int d1 = 1; d1 < t121.size()/2; d1++) {
+				 for (int d2 = 0; d2 < d1; d2++) {
+					 //if there are repeats, switch element in set 1 with corresponding element in set 2  
+					 if (t121.get(d1).get(1) == t121.get(d2).get(1)) {
+						 int temp1 = s2.get(d1);
+						 int temp2 = s1.get(d1); 
+						 s1.set(d1, temp1); 
+						 s2.set(d1, temp2); 
+					 }
+				 }
+			}
+
 		//populating set 3 with the least popular seminars
 		for (int j = 0; j < b6.size(); j++) {
 			s3.add(b61.get(j).get(0)); 
@@ -652,24 +679,24 @@ public class SrSch {
 		
 		System.out.println("SEMINAR SCHEDULE\n"); 
 		System.out.println("KEY: (SESSION ID, SESSION NAME, PRESENTER NAME)\n"); 
-		/*1*/System.out.println("Adventure Calls: The Benefits and Challenges of Study Abroad,1,Gunnar Lykins"); 
-		/*2*/System.out.println("Be Your Own Boss: Entrepreneurship Opportunities in College and Beyond,2,Edwin Sam"); 
-		/*3*/System.out.println("Business Clubs: Campus Involvement and Professional Development,3,Blake Lykins ");
-		/*4*/System.out.println("College Decisions: Choosing a Historically Black College over a Predominately White Institution,4,Liah Apatira"); 
-		/*5*/System.out.println("Community Organizing and College: Participating in Your College?s Democracy,5,Anna Beyette "); 
-		/*6*/System.out.println("Community Service and Volunteering: Making an Impact as a College Student,6,Nathan Grant "); 
-		/*7*/System.out.println("Conquering the Concrete Jungle,7,Madeleine Morales "); 
-		/*8*/System.out.println("Co-Ops and Engineering Internships: Gaining Professional Experience,8,Gunnar Lykins "); 
-		/*9*/System.out.println("Emergency Medical Technician: Working in the Back of an Ambulance,9,Grace Pettengill "); 
-		/*10*/System.out.println("Greek Life: From Animal House to Developing Tomorrow's Leaders,10,Blake Lykins "); 
-		/*11*/System.out.println("Making an Impact: Being a Leader in Student Government,11,Roshan Chandrakumar "); 
-		/*12*/System.out.println("On-Campus Recruiting and the Coveted Junior Year Internship in Finance,12,Mia Fatuzzo "); 
-		/*13*/System.out.println("So You Want to Play with Swords: Performance Martial Arts and Club Leadership,13,Claire Beyette "); 
-		/*14*/System.out.println("The Ins and Outs of Engineering Internships,14,Elizabeth "); 
-		/*15*/System.out.println("The Road Less Traveled: Finding the Right Path for You,15,Ishan Ghildyal "); 
-		/*16*/System.out.println("Thriving in a Highly Competitive College Environment,16,Mia Fatuzzo "); 
-		/*17*/System.out.println("To Read or Not To Read? Interning in Publishing,17,Claire Beyette "); 
-		/*18*/System.out.println("What Is Research When It's Not a Resume Builder?,18,Elizabeth Johnson "); 
+		/*1*/System.out.println("Adventure Calls: The Benefits and Challenges of Study Abroad, 1 , Gunnar Lykins"); 
+		/*2*/System.out.println("Be Your Own Boss: Entrepreneurship Opportunities in College and Beyond, 2 , Edwin Sam"); 
+		/*3*/System.out.println("Business Clubs: Campus Involvement and Professional Development, 3 , Blake Lykins ");
+		/*4*/System.out.println("College Decisions: Choosing a Historically Black College over a Predominately White Institution, 4 , Liah Apatira"); 
+		/*5*/System.out.println("Community Organizing and College: Participating in Your College?s Democracy, 5 , Anna Beyette "); 
+		/*6*/System.out.println("Community Service and Volunteering: Making an Impact as a College Student, 6 , Nathan Grant "); 
+		/*7*/System.out.println("Conquering the Concrete Jungle, 7 , Madeleine Morales "); 
+		/*8*/System.out.println("Co-Ops and Engineering Internships: Gaining Professional Experience, 8 , Gunnar Lykins "); 
+		/*9*/System.out.println("Emergency Medical Technician: Working in the Back of an Ambulance, 9 , Grace Pettengill "); 
+		/*10*/System.out.println("Greek Life: From Animal House to Developing Tomorrow's Leaders, 10 , Blake Lykins "); 
+		/*11*/System.out.println("Making an Impact: Being a Leader in Student Government, 11 , Roshan Chandrakumar "); 
+		/*12*/System.out.println("On-Campus Recruiting and the Coveted Junior Year Internship in Finance, 12 , Mia Fatuzzo "); 
+		/*13*/System.out.println("So You Want to Play with Swords: Performance Martial Arts and Club Leadership, 13 , Claire Beyette "); 
+		/*14*/System.out.println("The Ins and Outs of Engineering Internships, 14 , Elizabeth Grace "); 
+		/*15*/System.out.println("The Road Less Traveled: Finding the Right Path for You, 15 , Ishan Ghildyal "); 
+		/*16*/System.out.println("Thriving in a Highly Competitive College Environment, 16 , Mia Fatuzzo "); 
+		/*17*/System.out.println("To Read or Not To Read? Interning in Publishing, 17 , Claire Beyette "); 
+		/*18*/System.out.println("What Is Research When It's Not a Resume Builder?, 18 , Elizabeth Johnson "); 
 	
 		System.out.println("\nSCHEDULE BY SESSION ID\nTIME SLOT 1"); 
 		System.out.println(s1); 
@@ -684,9 +711,17 @@ public class SrSch {
 	
 		
 	} //close method
-	//student: check choice 1, if available, assign 
-	//remove that choice from their options (set = to 0) 
-	//if not, move on and do again 
-	//if = 0, can't assign (doesn't match) 
+	
+	//return methods of schedulesets to make indiviudal schedules in SrSt class
+	public ArrayList<Integer> getS1() {
+		return s1; 
+	}
+	public ArrayList<Integer> getS2() {
+		return s2; 
+	}
+	public ArrayList<Integer> getS3() {
+		return s3; 
+	}
+	
 }//close class
 
